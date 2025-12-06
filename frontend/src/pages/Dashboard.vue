@@ -34,5 +34,13 @@ export default {
 </script>
 
 <style scoped>
-h1 { margin-bottom: 10px }
+h1 {
+  margin-bottom: 2rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
 </style>

@@ -24,15 +24,17 @@ export async function register({ email, password, name, phone, address }) {
 
 export async function login({ email, password }) {
   const res = await api.post('/auth/login', { email, password })
-  if (res.data?.access_token) {
-    setToken(res.data.access_token)
+  const data = res.data
+  // Backend returns: {success: true, access_token: "...", data: {...}, msg: "..."}
+  if (data?.access_token) {
+    setToken(data.access_token)
   }
-  return res.data
+  return data
 }
 
 export async function getProfile() {
-  const res = await api.get('/user/profile')
-  currentUser.value = res.data
+  const res = await api.get('/auth/profile')
+  currentUser.value = res.data?.data || res.data
   return currentUser.value
 }
 

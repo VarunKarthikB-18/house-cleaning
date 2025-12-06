@@ -53,13 +53,21 @@ house-cleaner/
 │   │   │   ├── Home.vue       # Services listing
 │   │   │   ├── Login.vue
 │   │   │   ├── Register.vue
-│   │   │   ├── Bookings.vue   # User bookings
-│   │   │   ├── NewBooking.vue # Create booking form
-│   │   │   └── AdminDashboard.vue
+│   │   │   ├── Bookings.vue       # User bookings list
+│   │   │   ├── NewBooking.vue     # Create booking form
+│   │   │   ├── BookingDetail.vue  # Booking details + review
+│   │   │   ├── Reviews.vue        # Reviews listing
+│   │   │   ├── UserDashboard.vue  # User dashboard
+│   │   │   └── AdminDashboard.vue # Admin dashboard
 │   │   └── components/
-│   │       ├── ServiceCard.vue
-│   │       ├── BookingCard.vue
-│   │       └── BookingForm.vue
+│   │       ├── ServiceCard.vue    # Service package display
+│   │       ├── BookingCard.vue    # Booking summary card
+│   │       ├── BookingForm.vue    # Booking creation/editing form
+│   │       ├── TimeSlotPicker.vue # Time slot selection component
+│   │       ├── CleanerCard.vue    # Cleaner info card (admin)
+│   │       ├── AdminBookingRow.vue # Admin booking table row
+│   │       ├── HeaderBar.vue      # Navigation header
+│   │       └── FooterBar.vue      # Footer with links
 │   ├── index.html
 │   ├── vite.config.js
 │   ├── package.json
@@ -107,7 +115,7 @@ python seeds.py
 python app.py
 ```
 
-Backend will be available at `http://127.0.0.1:5000`
+Backend will be available at `http://127.0.0.1:5001` (port 5001 to avoid conflicts with macOS AirPlay Receiver)
 
 ### Step 2: Frontend Setup (in a new terminal)
 
@@ -148,40 +156,67 @@ The app uses JWT (JSON Web Tokens) for authentication.
 ## Key Features
 
 ### User Features
-- Register and login
-- Browse available cleaning services
-- Create bookings with custom date/time and address
-- View and manage personal bookings
-- Update pending bookings
-- Cancel bookings
+- **Register and Login**: Secure JWT-based authentication
+- **Browse Services**: View 5-6 service packages (Basic, Standard, Deep Clean, Move-Out, Post-Party, Premium) with pricing
+- **Create Bookings**:
+  - Select service package
+  - Choose areas to clean (multi-checkbox: Bathroom, Kitchen, Living Room, Bedroom, Balcony, Other)
+  - Pick date and time slot (30-min increments, business hours 8 AM - 7 PM)
+  - Set payment method (Cash on Arrival, COD, or Online)
+  - View real-time price breakdown (base price + area extras + tax)
+  - Add notes and special instructions
+- **Manage Bookings**: 
+  - View all bookings (upcoming and past)
+  - Edit pending bookings
+  - Cancel bookings (within cancellation window)
+  - View booking details with full invoice
+- **Reviews**: Leave reviews for completed bookings (1-5 stars + comment)
+- **Profile Management**: Update name, phone, and default address
 
 ### Admin Features
-- View all bookings across all users
-- Assign cleaners to bookings
-- Update booking status (pending → confirmed → in_progress → completed)
-- View statistics (bookings by status, daily counts)
-- Filter bookings by status and date
+- **Dashboard**: Professional admin interface with statistics
+- **Booking Management**:
+  - View all bookings with filters (date, status, service, cleaner)
+  - Assign cleaners to bookings (with conflict detection)
+  - Update booking status (pending → confirmed → in_progress → completed → cancelled)
+  - Export bookings to CSV
+- **Service Management**: Create, edit, and deactivate service packages
+- **Cleaner Management**: 
+  - Add/edit/activate/deactivate cleaners
+  - View cleaner's upcoming assigned bookings
+- **User Management**: View user list with booking counts
+- **Statistics**: 
+  - Booking counts by status
+  - Daily booking counts (past 7 days)
+  - Revenue estimates
+  - Top services
+- **Review Moderation**: View and delete inappropriate reviews
 
 ### Backend Features
-- Timezone-aware UTC datetimes
-- Business hours validation (8 AM - 7 PM UTC)
-- 10-minute booking buffer (future dates only)
-- Cleaner conflict detection (no overlapping bookings per cleaner)
-- Comprehensive error handling with JSON responses
-- Role-based access control (JWT with role checks)
+- **Business Rules Enforcement**:
+  - Minimum lead time: 3 hours before booking start
+  - Business hours: 8 AM - 7 PM UTC
+  - Cancellation window: Cannot cancel within 2 hours of start
+  - Cleaner conflict detection (no overlapping bookings)
+- **Pricing Calculation**: Base price + area extras ($10 per additional area) + 8% tax
+- **Timezone Handling**: UTC storage with local time conversion
+- **Comprehensive Validation**: Service availability, datetime validation, payment method validation
+- **Role-Based Access Control**: JWT tokens with user roles (user/admin)
+- **Error Handling**: Consistent JSON error responses
+- **Review System**: Users can only review completed bookings
 
 ## API Examples
 
 ### User Registration
 ```bash
-curl -X POST http://127.0.0.1:5000/auth/register \
+curl -X POST http://127.0.0.1:5001/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"newuser@example.com","password":"secure123","name":"John","phone":"555-1234","address":"123 Main St"}'
 ```
 
 ### User Login
 ```bash
-curl -X POST http://127.0.0.1:5000/auth/login \
+curl -X POST http://127.0.0.1:5001/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"newuser@example.com","password":"secure123"}'
 ```
@@ -190,31 +225,33 @@ Returns: `{"access_token": "eyJ...", "user": {...}}`
 
 ### List Services
 ```bash
-curl -X GET http://127.0.0.1:5000/services
+curl -X GET http://127.0.0.1:5001/services
 ```
 
 ### Create Booking (requires token)
 ```bash
-curl -X POST http://127.0.0.1:5000/bookings \
+curl -X POST http://127.0.0.1:5001/bookings \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer TOKEN_HERE" \
   -d '{
     "service_id": 1,
     "start_datetime": "2025-12-15T14:00:00+00:00",
     "address": "456 Oak Ave",
+    "areas": ["Bathroom", "Kitchen", "Living Room"],
+    "payment_method": "cash",
     "notes": "Please bring eco-friendly supplies"
   }'
 ```
 
 ### List User Bookings (requires token)
 ```bash
-curl -X GET http://127.0.0.1:5000/bookings \
+curl -X GET http://127.0.0.1:5001/bookings \
   -H "Authorization: Bearer TOKEN_HERE"
 ```
 
 ### Admin: Assign Cleaner to Booking
 ```bash
-curl -X PUT http://127.0.0.1:5000/admin/bookings/1/assign \
+curl -X PUT http://127.0.0.1:5001/admin/bookings/1/assign \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ADMIN_TOKEN_HERE" \
   -d '{"cleaner_id": 1}'
@@ -222,8 +259,25 @@ curl -X PUT http://127.0.0.1:5000/admin/bookings/1/assign \
 
 ### Admin: Get Statistics
 ```bash
-curl -X GET http://127.0.0.1:5000/admin/stats \
+curl -X GET http://127.0.0.1:5001/admin/stats \
   -H "Authorization: Bearer ADMIN_TOKEN_HERE"
+```
+
+### Create Review (requires token, booking must be completed)
+```bash
+curl -X POST http://127.0.0.1:5001/reviews \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TOKEN_HERE" \
+  -d '{
+    "booking_id": 1,
+    "rating": 5,
+    "comment": "Excellent service! Very thorough and professional."
+  }'
+```
+
+### Get Reviews
+```bash
+curl -X GET http://127.0.0.1:5001/reviews?booking_id=1
 ```
 
 ## Database Schema
@@ -238,9 +292,17 @@ curl -X GET http://127.0.0.1:5000/admin/stats \
 - `id` (PK), `name`, `phone`, `active`
 
 ### Bookings
-- `id` (PK), `user_id` (FK), `service_id` (FK), `cleaner_id` (FK, nullable), `start_datetime`, `end_datetime`, `status`, `address`, `notes`, `created_at`
+- `id` (PK), `user_id` (FK), `service_id` (FK), `cleaner_id` (FK, nullable), 
+  `start_datetime`, `end_datetime`, `status`, `areas` (JSON), `payment_method`, 
+  `price_total`, `address`, `notes`, `created_at`
 
 Statuses: `pending`, `confirmed`, `in_progress`, `completed`, `cancelled`
+
+Payment Methods: `cash`, `cod`, `online`
+
+### Reviews
+- `id` (PK), `user_id` (FK), `booking_id` (FK, unique), `rating` (1-5), 
+  `comment`, `moderated` (bool), `created_at`
 
 ## Environment Variables
 
@@ -312,13 +374,32 @@ pytest -k test_register     # Run tests matching pattern
    ```
 4. **New API endpoint**: Add to `backend/routes/`, import in `backend/app.py`
 
+## UI Features
+
+- **Professional Theme**: Not plain white - uses soft gray background (#f4f6f8) with white cards
+- **Modern Design**: Gradient accents, smooth transitions, hover effects
+- **Responsive Layout**: Works on desktop, tablet, and mobile
+- **Time Slot Picker**: Visual time slot selection with business hours and lead time validation
+- **Price Calculator**: Real-time price breakdown showing base price, area extras, and tax
+- **Status Badges**: Color-coded booking status indicators
+- **Review System**: Star ratings and comments for completed bookings
+
+## Business Rules
+
+- **Minimum Lead Time**: Bookings must be at least 3 hours in the future
+- **Business Hours**: 8:00 AM - 7:00 PM UTC (customizable in code)
+- **Cancellation Window**: Cannot cancel within 2 hours of booking start time
+- **Cleaner Conflicts**: System prevents double-booking the same cleaner
+- **Review Eligibility**: Users can only review completed bookings, one review per booking
+- **Pricing**: Base service price + $10 per additional area + 8% tax
+
 ## Notes
 
-- Datetimes are stored as UTC in database
-- Frontend sends local ISO datetime; backend converts to UTC
-- Business hours enforced: 8 AM - 7 PM UTC
-- Bookings must be at least 10 minutes in the future
-- No overlapping bookings per cleaner
+- Datetimes are stored as UTC in database; frontend handles timezone conversion
+- Frontend sends ISO datetime strings; backend validates and converts to UTC
+- Service packages include: Basic (30m), Standard (60m), Deep Clean (120m), Move-Out (180m), Post-Party (90m), Premium (180m)
+- Area selection: First area included in base price, additional areas cost $10 each
+- Payment methods: Cash on Arrival (default), COD, or Online (for future integration)
 
 ## License
 
