@@ -8,6 +8,8 @@ import UserDashboard from './pages/UserDashboard.vue'
 import NotFound from './pages/NotFound.vue'
 import Bookings from './pages/Bookings.vue'
 import NewBooking from './pages/NewBooking.vue'
+import BookingDetail from './pages/BookingDetail.vue'
+import Reviews from './pages/Reviews.vue'
 import * as auth from './services/auth'
 
 const routes = [
@@ -19,6 +21,8 @@ const routes = [
   { path: '/user', name: 'User', component: UserDashboard, meta: { requiresAuth: true } },
   { path: '/bookings', name: 'Bookings', component: Bookings, meta: { requiresAuth: true } },
   { path: '/bookings/new', name: 'NewBooking', component: NewBooking, meta: { requiresAuth: true } },
+  { path: '/bookings/:id', name: 'BookingDetail', component: BookingDetail, meta: { requiresAuth: true } },
+  { path: '/reviews', name: 'Reviews', component: Reviews, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 

@@ -1,13 +1,19 @@
 <template>
   <header class="header">
     <div class="left">
-      <span style="font-weight: 600; font-size: 18px;">🏠 House Cleaner</span>
+      <router-link to="/" style="text-decoration: none; color: inherit;">
+        <span style="font-weight: 600; font-size: 18px;">🏠 House Cleaner</span>
+      </router-link>
     </div>
     <nav class="nav">
-      <router-link v-if="!isAuthed" to="/login">Login</router-link>
-      <router-link v-if="!isAuthed" to="/register">Register</router-link>
-      <router-link v-if="isAuthed" to="/dashboard">Dashboard</router-link>
-      <button v-if="isAuthed" class="btn-link" @click="doLogout">Logout</button>
+      <template v-if="!isAuthed">
+        <router-link to="/login">Login</router-link>
+      </template>
+      <template v-if="isAuthed">
+        <router-link to="/bookings">My Bookings</router-link>
+        <router-link to="/reviews">Reviews</router-link>
+        <button class="btn-link logout-btn" @click="doLogout">Logout</button>
+      </template>
     </nav>
   </header>
 </template>
@@ -26,8 +32,20 @@ export default {
 </script>
 
 <style scoped>
-.header { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #eee }
-.left { display:flex; align-items:center; gap:12px }
-.nav { display:flex; gap:12px; align-items:center }
-.btn-link { background:none; border:0; color:#007bff; cursor:pointer }
+.logout-btn {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(239, 68, 68, 0.5) !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.4) !important;
+  border-color: rgba(239, 68, 68, 0.8) !important;
+  transform: translateY(-2px);
+}
 </style>
