@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Cleaner - Frontend</title>
+    <!-- Tailwind CDN is optional; we provide our own minimal CSS in styles/ -->
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+  </html>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Cleaner - Professional Cleaning Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(-30px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+      }
+      @keyframes bounce-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+      }
+      .animate-slide-in-right {
+        animation: slideInRight 0.6s ease-out;
+      }
+      .pulse-glow {
+        animation: pulse-glow 2s infinite;
+      }
+      .bounce-subtle {
+        animation: bounce-subtle 2s infinite;
+      }
+      .gradient-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      }
+      .gradient-hover {
+        background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      }
+      .input-field {
+        transition: all 0.3s ease;
+        border: 2px solid #e5e7eb;
+      }
+      .input-field:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        outline: none;
+      }
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #3b82f6;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+      .status-pending { background: #fef3c7; color: #92400e; }
+      .status-confirmed { background: #dbeafe; color: #1e40af; }
+      .status-in_progress { background: #cffafe; color: #0c4a6e; }
+      .status-completed { background: #dcfce7; color: #15803d; }
+      .status-cancelled { background: #fee2e2; color: #991b1b; }
+      .float-animation {
+        animation: bounce-subtle 3s infinite;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
