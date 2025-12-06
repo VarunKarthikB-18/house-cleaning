@@ -64,6 +64,75 @@ export default {
 </script>
 
 <style scoped>
-.actions { display:flex; gap:12px; align-items:center }
-.error { color:#c00 }
+.card {
+  max-width: 420px;
+  margin: 3rem auto;
+}
+
+h2 {
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 1rem;
+}
+
+label:first-of-type {
+  margin-top: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.actions .btn-primary {
+  flex: 1;
+}
+
+p {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-top: 1.5rem;
+  color: var(--text-light);
+}
+
+p a {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.error {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #c00;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border-left: 3px solid #c00;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions .btn-primary {
+    flex: unset;
+  }
+}
 </style>
