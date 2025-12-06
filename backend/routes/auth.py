@@ -4,6 +4,7 @@ from models import User
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash
 from datetime import datetime
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -44,3 +45,17 @@ def login():
     identity = {'user_id': user.id, 'role': user.role}
     token = create_access_token(identity=identity)
     return jsonify({'access_token': token, 'user': user.to_dict()}), 200
+
+
+@auth_bp.route('/profile', methods=['GET'])
+@jwt_required()
+def profile():
+    """Return the current logged-in user's profile."""
+    identity = get_jwt_identity() or {}
+    user_id = identity.get('user_id')
+    if not user_id:
+        return jsonify({'msg': 'Unauthorized', 'code': 401}), 401
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'msg': 'User not found', 'code': 404}), 404
+    return jsonify(user.to_dict()), 200
