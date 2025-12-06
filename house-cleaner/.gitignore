@@ -1,7 +1,0 @@
-venv/
-__pycache__/
-*.pyc
-backend/*.db
-frontend/node_modules/
-.env
-.pytest_cache/
