@@ -1,16 +1,18 @@
 <template>
-  <div class="card" style="max-width: 520px; margin: 0 auto">
-    <h2>Register</h2>
+  <div class="card" style="max-width: 420px; margin: 0 auto">
+    <h2 style="margin-top: 0; color: var(--text)">Create Account</h2>
     <form @submit.prevent="submit">
-      <label>Name <input v-model="name" required /></label>
-      <label>Email <input v-model="email" type="email" required /></label>
-      <label>Phone <input v-model="phone" /></label>
-      <label>Address <input v-model="address" /></label>
-      <label>Password <input v-model="password" type="password" required minlength="6" /></label>
+      <label>Full Name <input v-model="name" type="text" required placeholder="John Doe" /></label>
+      <label>Email <input v-model="email" type="email" required placeholder="you@example.com" /></label>
+      <label>Phone <input v-model="phone" type="text" placeholder="(555) 123-4567" /></label>
+      <label>Address <input v-model="address" type="text" placeholder="123 Main St, City, State" /></label>
+      <label>Password <input v-model="password" type="password" required minlength="6" placeholder="At least 6 characters" /></label>
       <div class="actions">
-        <button class="btn btn-primary" :disabled="loading">Create account</button>
-        <router-link to="/login">Have an account?</router-link>
+        <button class="btn btn-primary" :disabled="loading">{{ loading ? 'Creating...' : 'Sign Up' }}</button>
       </div>
+      <p style="text-align: center; margin-top: 12px; color: var(--muted)">
+        Already have an account? <router-link to="/login">Sign in</router-link>
+      </p>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
   </div>

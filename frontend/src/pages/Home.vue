@@ -1,10 +1,10 @@
 <template>
-  <section>
-    <h1 class="page-title">House Cleaning App</h1>
-    <p class="lead">Book trusted cleaners quickly and easily.</p>
-    <div class="cta">
-      <router-link class="btn btn-primary" to="/register">Get Started</router-link>
-      <router-link class="btn" to="/login">Sign In</router-link>
+  <section style="text-align: center">
+    <h1 class="page-title">House Cleaning Made Easy</h1>
+    <p class="lead">Book trusted cleaners quickly and easily. Reliable, professional service at your fingertips.</p>
+    <div class="cta" style="display: flex; gap: 12px; justify-content: center">
+      <router-link class="btn btn-primary" to="/register" style="display: inline-block; text-decoration: none">Get Started</router-link>
+      <router-link class="btn" to="/login" style="display: inline-block; text-decoration: none">Sign In</router-link>
     </div>
   </section>
 </template>

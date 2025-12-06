@@ -1,13 +1,15 @@
 <template>
   <div class="card" style="max-width: 420px; margin: 0 auto">
-    <h2>Login</h2>
+    <h2 style="margin-top: 0; color: var(--text)">Sign In</h2>
     <form @submit.prevent="submit">
-      <label>Email <input v-model="email" type="email" required /></label>
-      <label>Password <input v-model="password" type="password" required minlength="6" /></label>
+      <label>Email <input v-model="email" type="email" required placeholder="you@example.com" /></label>
+      <label>Password <input v-model="password" type="password" required minlength="6" placeholder="Your password" /></label>
       <div class="actions">
-        <button class="btn btn-primary" :disabled="loading">Sign In</button>
-        <router-link to="/register">Register</router-link>
+        <button class="btn btn-primary" :disabled="loading">{{ loading ? 'Signing in...' : 'Sign In' }}</button>
       </div>
+      <p style="text-align: center; margin-top: 12px; color: var(--muted)">
+        Don't have an account? <router-link to="/register">Create one</router-link>
+      </p>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
   </div>

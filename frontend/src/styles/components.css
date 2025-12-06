@@ -46,3 +46,22 @@ textarea { min-height:90px }
 /* Make links and buttons accessible focusable */
 a:focus, button:focus, input:focus, select:focus, textarea:focus { outline: 3px solid rgba(43,108,176,0.12); outline-offset: 2px }
 
+/* Placeholder styling */
+input::placeholder { color: #ccc }
+
+/* Improved button states */
+.btn:hover { opacity: 0.9; transition: opacity 0.2s ease }
+.btn-primary:hover { background: #22569c }
+
+/* Form spacing improvements */
+label { margin-bottom: 8px; margin-top: 12px; display: block }
+label:first-of-type { margin-top: 0 }
+
+/* Link styling in cards */
+.card a { text-decoration: none; font-weight: 500; color: var(--primary) }
+.card a:hover { text-decoration: underline }
+
+/* Better button appearance */
+.btn { transition: all 0.2s ease }
+.btn[disabled] { opacity: 0.5; cursor: not-allowed }
+
